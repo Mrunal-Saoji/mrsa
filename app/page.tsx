@@ -1,29 +1,19 @@
+import Navbar from "@/components/Navbar";
 import { SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
 export default async function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <SignedOut>
-            <SignInButton />
-          </SignedOut>
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
-      </div>
-
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+      {/* <Navbar /> */}
+      Hello
       <SignedIn>
         <h1>Go to the dashboard to create new messages</h1>
         <Link href="/dashboard">Dashboard</Link>
       </SignedIn>
       <SignedOut>
-        <h1>Sign in to create new messages</h1>
+        <h1>Sign in first</h1>
       </SignedOut>
-
-      
-    </main>
+    </div>
   );
 }
