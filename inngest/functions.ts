@@ -1,7 +1,9 @@
 import { inngest } from "./client";
 import OpenAI from "openai";
+import Groq from 'groq-sdk';
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+
+const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
 // Functions exported from this file are exposed to Inngest
 // See: @/app/api/inngest/route.ts
@@ -26,8 +28,10 @@ export const messageSent = inngest.createFunction(
     // All code is retried automatically on failure
     // Read more about Inngest steps: https://www.inngest.com/docs/learn/inngest-steps
     const reply = await step.run("create-reply", async () => {
-      if (OPENAI_API_KEY) {
-        const openai = new OpenAI();
+      if (GROQ_API_KEY) {
+        const openai = new Groq({
+          apiKey: GROQ_API_KEY, // This is the default and can be omitted
+        });
         const completion = await openai.chat.completions.create({
           messages: [
             {
@@ -37,7 +41,7 @@ export const messageSent = inngest.createFunction(
             },
             { role: "user", content: message?.text },
           ],
-          model: "gpt-3.5-turbo",
+          model: "llama3-8b-8192",
         });
         return (
           completion.choices[0]?.message.content ?? "Unexpected OpenAI response"
